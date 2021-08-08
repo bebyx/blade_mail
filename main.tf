@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.region
+  region = var.region
 }
 
 resource "tls_private_key" "blade-mail-ssh" {
@@ -17,13 +17,13 @@ resource "tls_private_key" "blade-mail-ssh" {
 }
 
 resource "local_file" "key-file" {
- content = tls_private_key.blade-mail-ssh.private_key_pem
- filename = "${aws_key_pair.blade-mail-ssh.key_name}.pem"
- file_permission = 0400
+  content         = tls_private_key.blade-mail-ssh.private_key_pem
+  filename        = "${aws_key_pair.blade-mail-ssh.key_name}.pem"
+  file_permission = 0400
 }
 
 resource "aws_key_pair" "blade-mail-ssh" {
-  key_name = "terraform"
+  key_name   = "terraform"
   public_key = tls_private_key.blade-mail-ssh.public_key_openssh
 }
 
