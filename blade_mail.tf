@@ -17,8 +17,8 @@ resource "aws_instance" "blade-mail" {
 resource "null_resource" "deploy" {
 
   provisioner "file" {
-    source      = "artifacts/gopher.tar.gz"
-    destination = "/tmp/gopher.tar.gz"
+    source      = "artifacts/"
+    destination = "/tmp/"
     connection {
       type        = "ssh"
       user        = "admin"
@@ -28,7 +28,7 @@ resource "null_resource" "deploy" {
   }
 
   provisioner "remote-exec" {
-    inline = ["echo 'Definitely connected!'"]
+    inline = ["sudo bash /tmp/provision.sh ${aws_eip.ip-blade-mail.public_ip}"]
     connection {
       type        = "ssh"
       user        = "admin"
